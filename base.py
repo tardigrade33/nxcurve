@@ -99,7 +99,10 @@ hdpd =    euclidean_distances(X,X)
 ldpd =  euclidean_distances(X_r,X_r)
 #print((np.array(X_r_dist)).shape)
 
-
-print(rnx.coranking(hdpd,ldpd))
-
-
+c = np.array([[5. ,0. ,0. ,0. ,0.],
+    [0. ,5. ,0. ,0. ,0.],
+    [0. ,0. ,2. ,1. ,2.],
+    [0. ,0. ,3. ,2. ,0.],
+    [0. ,0. ,0. ,2. ,3.],])
+a = rnx.coranking(hdpd,ldpd)
+print(rnx.nx_trusion(a)[1])
