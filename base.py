@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 from Kernels.LLE import LocallyLinearEmbedding      #import LLE
 # This import is needed to modify the way figure behaves
 from mpl_toolkits.mplot3d import Axes3D
@@ -8,7 +7,8 @@ from sklearn import manifold, datasets  #Datasets
 from scipy.linalg import eigh
 #pairwise distances
 from sklearn.metrics.pairwise import euclidean_distances
-
+import numpy as np
+import rnxfun as rnx
 
 
 
@@ -100,35 +100,6 @@ ldpd =  euclidean_distances(X_r,X_r)
 #print((np.array(X_r_dist)).shape)
 
 
-def ranking(hdpd,ldpd):
-    """
-    input
-        hdpd:   distances matrix high dimention
-        ldpd:   distances matrix lower dimention
-        nsamples; samples
-    output
-        ρij = |{k : δik < δij or (δik = δij and 1 ≤ k < j ≤ N )}|
-    review that  ρij != ρik for k != j, even if δij = δik .
-    """
-    ndx1 = np.argsort(hdpd, axis=0)
-    ndx2 = np.argsort(ldpd, axis=0)
-    print(ndx1)
-    rows = len(hdpd)
-    cols = len(hdpd[0])
-    print(rows,cols)
-    ndx4 = np.zeros((rows,cols))
-    for j in range(rows):
-        for i in range(cols):
-            ndx4[(ndx2[i][j])][j] = i
-    #print(rank)
-    corank = np.zeros((rows,cols))
-    for j in range(rows):
-        for i in range(cols):
-            h=int(ndx4[(ndx1[i][j])][j])
-            #print(h)
-            corank[i][h] =  corank[i][h] + 1
-    return corank
+print(rnx.coranking(hdpd,ldpd))
 
-
-print(ranking(hdpd,ldpd))
 
