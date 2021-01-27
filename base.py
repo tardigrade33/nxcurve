@@ -74,7 +74,7 @@ def sphere(n_samples):
 ## important variables
 n_comp = 2
 n_nei =2
-nsamples = 10
+nsamples = 5
 
 #Swissroll
 X, color = datasets.make_swiss_roll(n_samples=nsamples)
@@ -94,60 +94,41 @@ print(type(LLE))
 K = LLE.K(X)
 X_r = kernel_pca(X,K,n_comp)
 #draw_projection(X,X_r)
-X_dist =    euclidean_distances(X,X)
-#print(X_dist)
-X_r_dist =  euclidean_distances(X_r,X_r)
+hdpd =    euclidean_distances(X,X)
+#print(hdpd)
+ldpd =  euclidean_distances(X_r,X_r)
 #print((np.array(X_r_dist)).shape)
 
 
-def ranks(X_dist,nsamples):
+def ranking(hdpd,ldpd):
     """
     input
-        X_dist:   distances matrix
+        hdpd:   distances matrix high dimention
+        ldpd:   distances matrix lower dimention
         nsamples; samples
     output
         ρij = |{k : δik < δij or (δik = δij and 1 ≤ k < j ≤ N )}|
     review that  ρij != ρik for k != j, even if δij = δik .
     """
-    rows = len(X_dist)
-    cols = len(X_dist[0])
-    rank = np.zeros((rows,cols))
-    for i in range(rows):
-        for j in range(cols):
-            for k in range(rows):
-                count = []
-                if X_dist[i][k] < X_dist[i][j] or ((X_dist[i][k] == X_dist[i][j]) and (1<=k and k<j and j<=nsamples)):
-                    count.append(k)
-            print(count)
-            rank[i][j] = len(count)
-    return rank
-
-def ranking(X_dist,nsamples):
-    """
-    input
-        X_dist:   distances matrix
-        nsamples; samples
-    output
-        ρij = |{k : δik < δij or (δik = δij and 1 ≤ k < j ≤ N )}|
-    review that  ρij != ρik for k != j, even if δij = δik .
-    """
-    idx = np.argsort(X_dist, axis=0)
-    rows = len(X_dist)
-    cols = len(X_dist[0])
+    ndx1 = np.argsort(hdpd, axis=0)
+    ndx2 = np.argsort(ldpd, axis=0)
+    print(ndx1)
+    rows = len(hdpd)
+    cols = len(hdpd[0])
     print(rows,cols)
-    rank = np.zeros((rows,cols))
-    for i in range(rows):
-        for j in range(cols):
-            rank[(idx[i][j])][j] = i
-    print(rank)
+    ndx4 = np.zeros((rows,cols))
+    for j in range(rows):
+        for i in range(cols):
+            ndx4[(ndx2[i][j])][j] = i
+    #print(rank)
     corank = np.zeros((rows,cols))
-    for i in range(rows):
-        for j in range(cols):
-            h=int(rank[(idx[i][j])][j])
+    for j in range(rows):
+        for i in range(cols):
+            h=int(ndx4[(ndx1[i][j])][j])
             #print(h)
             corank[i][h] =  corank[i][h] + 1
     return corank
 
 
-print(ranking(X_r_dist,nsamples))
+print(ranking(hdpd,ldpd))
 
