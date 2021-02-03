@@ -12,7 +12,7 @@ import rnxfun as rnx
 
 
 
-def draw_projection(X,X_r):
+def draw_projection(X,X_r,color):
     """
     Draws original figure and Reduction
     """
@@ -67,42 +67,67 @@ def sphere(n_samples):
         np.cos(t[indices])
 
     X = np.array([x, y, z]).T
-    return X,color
+    return (X,color)
 
 
 ###### DATA ####################
 ## important variables
 n_comp = 2
-n_nei =2
-nsamples = 5
+n_nei =12
+nsamples = 1000
 
 #Swissroll
-X, color = datasets.make_swiss_roll(n_samples=nsamples)
+#X, color = datasets.make_swiss_roll(n_samples=nsamples)
 #Scurve
-#X, color = datasets.make_s_curve(n_samples=nsamples)
+X, color = datasets.make_s_curve(n_samples=nsamples)
 
 ########## DR ##################
 ####Sklearn method
-# X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
+X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
 # print("Done. Reconstruction error: %g" % err)
 
 ####Kernel Method
 
 print("performing kernel calculation")
-LLE = LocallyLinearEmbedding(n_neighbors=n_nei)
-print(type(LLE))
-K = LLE.K(X)
-X_r = kernel_pca(X,K,n_comp)
-#draw_projection(X,X_r)
-hdpd =    euclidean_distances(X,X)
+#LLE = LocallyLinearEmbedding(n_neighbors=n_nei)
+#print(type(LLE))
+#K = LLE.K(X)
+#X_r = kernel_pca(X,K,n_comp)
+#draw_projection(X,X_r,color)
+#hdpd =    euclidean_distances(X,X)
 #print(hdpd)
-ldpd =  euclidean_distances(X_r,X_r)
+#ldpd =  euclidean_distances(X_r,X_r)
 #print((np.array(X_r_dist)).shape)
 
-c = np.array([[5. ,0. ,0. ,0. ,0.],
-    [0. ,5. ,0. ,0. ,0.],
-    [0. ,0. ,2. ,1. ,2.],
-    [0. ,0. ,3. ,2. ,0.],
-    [0. ,0. ,0. ,2. ,3.],])
-a = rnx.coranking(hdpd,ldpd)
-print(rnx.nx_trusion(a)[1])
+
+# X = np.array([[ 2.22942149  ,7.85955028 ,13.79802659],
+#     [10.9935585  ,10.69743902 ,-5.12635759],
+#     [ 3.21392031  ,1.58486527  ,6.67122432],
+#     [12.55779643  ,9.59765318  ,2.09874601],
+#     [ 9.944827   ,10.27754689  ,8.81891858],])
+
+
+
+# X_r =  np.array( [[-0.43301874  ,0.16590887],
+#         [ 0.71433688  ,0.36647625],
+#         [-0.43666503  ,0.47939415],
+#         [ 0.30069242 ,-0.28622852],
+#         [-0.14534552 ,-0.72555075],])
+
+# hdpd =   euclidean_distances(X,X)
+# #print(hdpd)
+# ldpd =  euclidean_distances(X_r,X_r)
+#print(ldpd)
+# c = np.array([[5. ,0. ,0. ,0. ,0.],
+#     [0. ,5. ,0. ,0. ,0.],
+#     [0. ,0. ,2. ,1. ,2.],
+#     [0. ,0. ,3. ,2. ,0.],
+#     [0. ,0. ,0. ,2. ,3.],])
+# a = rnx.coranking(hdpd,ldpd)
+
+# n,x,p,b = rnx.nx_trusion(a)
+
+# #print(rnx.difranking(X,X_r))
+k=0
+pts=10
+rnx.nx_scores(k,pts,X,X)
