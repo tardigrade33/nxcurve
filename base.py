@@ -56,7 +56,7 @@ def sphere(n_samples):
 ## important variables
 n_comp = 2
 n_nei =12
-nsamples = 1000
+nsamples = 100
 
 #Swissroll
 X, color = datasets.make_swiss_roll(n_samples=nsamples)
@@ -66,49 +66,10 @@ X, color = datasets.make_swiss_roll(n_samples=nsamples)
 ########## DR ##################
 ####Sklearn method
 #X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
+####Kernel Method use wrapers
 
+X_r = drmeth.lle(X,n_comp,n_nei)
 
-# print("Done. Reconstruction error: %g" % err)
-
-####Kernel Method
-
-X_r = drmeth.laplacian(X,n_comp,n_nei)
-
-#draw_projection(X,X_r,color)
-#hdpd =    euclidean_distances(X,X)
-#print(hdpd)
-#ldpd =  euclidean_distances(X_r,X_r)
-#print((np.array(X_r_dist)).shape)
-
-
-# X = np.array([[ 2.22942149  ,7.85955028 ,13.79802659],
-#     [10.9935585  ,10.69743902 ,-5.12635759],
-#     [ 3.21392031  ,1.58486527  ,6.67122432],
-#     [12.55779643  ,9.59765318  ,2.09874601],
-#     [ 9.944827   ,10.27754689  ,8.81891858],])
-
-
-
-# X_r =  np.array( [[-0.43301874  ,0.16590887],
-#         [ 0.71433688  ,0.36647625],
-#         [-0.43666503  ,0.47939415],
-#         [ 0.30069242 ,-0.28622852],
-#         [-0.14534552 ,-0.72555075],])
-
-# hdpd =   euclidean_distances(X,X)
-# #print(hdpd)
-# ldpd =  euclidean_distances(X_r,X_r)
-#print(ldpd)
-# c = np.array([[5. ,0. ,0. ,0. ,0.],
-#     [0. ,5. ,0. ,0. ,0.],
-#     [0. ,0. ,2. ,1. ,2.],
-#     [0. ,0. ,3. ,2. ,0.],
-#     [0. ,0. ,0. ,2. ,3.],])
-# a = rnx.coranking(hdpd,ldpd)
-
-# n,x,p,b = rnx.nx_trusion(a)
-
-# #print(rnx.difranking(X,X_r))
 k=0
 pts=10
 rnx.nx_scores(k,pts,X,X_r)
