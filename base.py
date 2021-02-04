@@ -1,13 +1,12 @@
+#rnxfun.py
+# Author: Nicolas Marin <josue.marin1729@gmail.com>
+# License: MIT
 import matplotlib.pyplot as plt
-from Kernels.LLE import LocallyLinearEmbedding      #import LLE
-from Kernels.Isomap import Isomap
 # This import is needed to modify the way figure behaves
 from mpl_toolkits.mplot3d import Axes3D
 Axes3D
 from sklearn import manifold, datasets  #Datasets
-from scipy.linalg import eigh
-#pairwise distances
-from sklearn.metrics.pairwise import euclidean_distances
+
 import numpy as np
 import rnxfun as rnx
 import wrapers as drmeth
