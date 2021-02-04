@@ -96,14 +96,13 @@ def difranking(X,Yr):
     return np.divide(dif,tmp)
     
 
-def nx_scores(k,pts,X,Y):
+def nx_scores(X,Y):
 
     nbr = len(X) #number of colums
     nmo = nbr-1
     nmt = nbr-2
 
     rpt = np.floor(np.prod(Y.shape)/3) # elements in Y
-    k=nbr #default value for k
 
 
     #Dx = euclidean_distances(X,X)

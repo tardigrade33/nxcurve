@@ -1,13 +1,10 @@
 #rnxfun.py
 # Author: Nicolas Marin <josue.marin1729@gmail.com>
 # License: MIT
-
 from sklearn import manifold, datasets  #Datasets
 import numpy as np
 import rnxfun as rnx
 import wrapers as drmeth
-
-
 
 ###### DATA ####################
 ## important variables
@@ -23,10 +20,9 @@ X, color = datasets.make_swiss_roll(n_samples=nsamples)
 ########## DR ##################
 ####Sklearn method
 #X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
-####Kernel Method use wrapers
 
+####Kernel Method use wrapers KPCA
 X_r = drmeth.lle(X,n_comp,n_nei)
 #drmeth.draw_projection(X,X_r,color)
-k=0
-pts=10
-rnx.nx_scores(k,pts,X,X_r)
+
+rnx.nx_scores(X,X_r)
