@@ -131,6 +131,8 @@ def nx_scores(k,pts,X,Y):
     wgh = np.divide(1,np.array(list(range(1,nmt+1))))
     wgh = wgh/np.sum(wgh)
     Ravg = np.dot(wgh,R_NX)
+    # area under R_NX in a logplot
+    #Ravg Es el promedio escalar de la puntuaci�n de los disttintos becindarios para R
     print(Ravg)
     #TR = np.argsort(R_NX, axis=1)
     #TR = np.argsort(TR, axis=1)
@@ -156,8 +158,16 @@ def nx_scores(k,pts,X,Y):
     #print(rpt)
     #print(yco[:,[1]])
     #print(Ravg)
-    plt.plot(v1,100*R_NX)
     plt.xscale('log')
+    plt.plot(v1,100*R_NX)
+    plt.xlabel('x label')
+    plt.ylabel('y label')
+    plt.grid(True)
+    #for lvl in range(0,100,10):
+    #    plt.plot(v1,[lvl]*nmt,color='green', marker='_', linestyle='dashed')
+    
+    plt.text(3, 8, str(Ravg*100), style='italic',
+        bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
     #print(B_NX)
      
     plt.show()

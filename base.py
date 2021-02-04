@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from Kernels.LLE import LocallyLinearEmbedding      #import LLE
+from Kernels.Isomap import Isomap
 # This import is needed to modify the way figure behaves
 from mpl_toolkits.mplot3d import Axes3D
 Axes3D
@@ -9,7 +10,7 @@ from scipy.linalg import eigh
 from sklearn.metrics.pairwise import euclidean_distances
 import numpy as np
 import rnxfun as rnx
-
+import wrapers as drmeth
 
 
 def draw_projection(X,X_r,color):
@@ -27,25 +28,6 @@ def draw_projection(X,X_r,color):
     plt.title('Projected data')
     plt.show()
 
-
-def kernel_pca(X,K,n_components):
-    """
-    Input:  matrix de datos, matrix kernel, numero de componentes
-    Output: PCA
-    """
-
-    print("performing dimentionality reduction")
-    #Dimention Reduction
-    # Centering the symmetric NxN kernel matrix.
-    N = K.shape[0]
-    one_n = np.ones((N,N)) / N
-    K = K - one_n.dot(K) - K.dot(one_n) + one_n.dot(K).dot(one_n)
-    # Obtaining eigenvalues in descending order with corresponding
-    # eigenvectors from the symmetric matrix.
-    eigvals, eigvecs = eigh(K)
-    # Obtaining the i eigenvectors that corresponds to the i highest eigenvalues.
-    X_pc = np.column_stack((eigvecs[:,-i] for i in range(1,n_components+1)))
-    return X_pc
 
 def sphere(n_samples):
     """
@@ -74,7 +56,7 @@ def sphere(n_samples):
 ## important variables
 n_comp = 2
 n_nei =12
-nsamples = 100
+nsamples = 1000
 
 #Swissroll
 X, color = datasets.make_swiss_roll(n_samples=nsamples)
@@ -83,16 +65,15 @@ X, color = datasets.make_swiss_roll(n_samples=nsamples)
 
 ########## DR ##################
 ####Sklearn method
-X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
+#X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
+
+
 # print("Done. Reconstruction error: %g" % err)
 
 ####Kernel Method
 
-#print("performing kernel calculation")
-#LLE = LocallyLinearEmbedding(n_neighbors=n_nei)
-#print(type(LLE))
-#K = LLE.K(X)
-#X_r = kernel_pca(X,K,n_comp)
+X_r = drmeth.laplacian(X,n_comp,n_nei)
+
 #draw_projection(X,X_r,color)
 #hdpd =    euclidean_distances(X,X)
 #print(hdpd)
