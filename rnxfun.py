@@ -159,7 +159,8 @@ def nx_scores(k,pts,X,Y):
     #print(yco[:,[1]])
     #print(Ravg)
     plt.xscale('log')
-    plt.plot(v1,100*R_NX)
+    plt.yscale('log')
+    plt.plot(v1,100*np.log(R_NX))
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.grid(True)
@@ -169,6 +170,7 @@ def nx_scores(k,pts,X,Y):
     plt.text(3, 8, str(Ravg*100), style='italic',
         bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
     #print(B_NX)
+    print(yub)
      
     plt.show()
 

@@ -44,6 +44,7 @@ def lle(X,n_comp,n_nei):
     K = LLE.K(X)
     X_r = kernel_pca(X,K,n_comp)
     return X_r
+
 def le(X,n_comp,n_nei):
     """
     input:  data X, number of components, n neighbors
@@ -54,3 +55,47 @@ def le(X,n_comp,n_nei):
     X_r = kernel_pca(X,K,n_comp)
     return X_r
 
+
+import matplotlib.pyplot as plt
+# This import is needed to modify the way figure behaves
+from mpl_toolkits.mplot3d import Axes3D
+Axes3D
+
+
+def sphere(n_samples):
+    """
+    Return matrix with datapoins of a sphere and colors
+    """
+    #Sphere Begin
+    # Create our sphere.
+    from sklearn.utils import check_random_state
+    n_samples = 1000
+    random_state = check_random_state(0)
+    p = random_state.rand(n_samples) * (2 * np.pi - 0.55)
+    t = random_state.rand(n_samples) * np.pi
+
+    # Sever the poles from the sphere.
+    indices = ((t < (np.pi - (np.pi / 8))) & (t > ((np.pi / 8))))
+    color = p[indices]
+    x, y, z = np.sin(t[indices]) * np.cos(p[indices]), \
+        np.sin(t[indices]) * np.sin(p[indices]), \
+        np.cos(t[indices])
+
+    X = np.array([x, y, z]).T
+    return (X,color)
+
+def draw_projection(X,X_r,color):
+    """
+    input: Original data, DR data, color
+    Draws original figure and Reduction
+    """
+    fig = plt.figure()
+    ax = fig.add_subplot(211, projection='3d')
+    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=color, cmap=plt.get_cmap("Spectral")) 
+    ax.set_title("Original data")
+    ax = fig.add_subplot(212)
+    ax.scatter(X_r[:, 0], X_r[:, 1], c=color, cmap=plt.get_cmap("Spectral"))
+    plt.axis('tight')
+    plt.xticks([]), plt.yticks([])
+    plt.title('Projected data')
+    plt.show()
