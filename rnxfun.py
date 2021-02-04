@@ -1,8 +1,12 @@
 #rnxfun.py
+# Author: Nicolas Marin <josue.marin1729@gmail.com>
+# License: MIT
+
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
-#import numpy.matlib
 import matplotlib.pyplot as plt
+from sklearn.metrics.pairwise import pairwise_distances
+
 
 def coranking(hdpd,ldpd):
     """
@@ -102,13 +106,15 @@ def nx_scores(k,pts,X,Y):
     k=nbr #default value for k
 
 
-    Dx = euclidean_distances(X,X)
-    Dy = euclidean_distances(Y,Y)
+    #Dx = euclidean_distances(X,X)
+    #Dy = euclidean_distances(Y,Y)
+    Dx = pairwise_distances(X)
+    Dy = pairwise_distances(Y)
     #creating output
 
     n,x,p,b = nx_trusion(coranking(Dx,Dy))
     Q_NX = n + x + p
-    #B_NX = x - n
+    B_NX = x - n
     LCMC = np.subtract(Q_NX,b)
     R_NX = np.divide(LCMC[:-1][:], 1-b[:-1][:])
     #print(n)
@@ -124,8 +130,8 @@ def nx_scores(k,pts,X,Y):
     #Bavg = wgh*B_NX
     wgh = np.divide(1,np.array(list(range(1,nmt+1))))
     wgh = wgh/np.sum(wgh)
-    #Ravg = wgh*R_NX
-
+    Ravg = np.dot(wgh,R_NX)
+    print(Ravg)
     #TR = np.argsort(R_NX, axis=1)
     #TR = np.argsort(TR, axis=1)
     #AR = wgh*(rpt+1-TR)
@@ -139,6 +145,7 @@ def nx_scores(k,pts,X,Y):
     lpo = 'South' # not always optimal when loab is true
 
     v1 = list(range(1,kra+1))
+    #v2 =
     #print(rpt)
     #print(LCMC)
     #print(v1)
@@ -148,7 +155,10 @@ def nx_scores(k,pts,X,Y):
         #plt.plot([t],[t])
     #print(rpt)
     #print(yco[:,[1]])
+    #print(Ravg)
     plt.plot(v1,100*R_NX)
+    plt.xscale('log')
+    #print(B_NX)
      
     plt.show()
 

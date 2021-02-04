@@ -74,12 +74,12 @@ def sphere(n_samples):
 ## important variables
 n_comp = 2
 n_nei =12
-nsamples = 1000
+nsamples = 100
 
 #Swissroll
-#X, color = datasets.make_swiss_roll(n_samples=nsamples)
+X, color = datasets.make_swiss_roll(n_samples=nsamples)
 #Scurve
-X, color = datasets.make_s_curve(n_samples=nsamples)
+#X, color = datasets.make_s_curve(n_samples=nsamples)
 
 ########## DR ##################
 ####Sklearn method
@@ -88,7 +88,7 @@ X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=
 
 ####Kernel Method
 
-print("performing kernel calculation")
+#print("performing kernel calculation")
 #LLE = LocallyLinearEmbedding(n_neighbors=n_nei)
 #print(type(LLE))
 #K = LLE.K(X)
@@ -130,4 +130,4 @@ print("performing kernel calculation")
 # #print(rnx.difranking(X,X_r))
 k=0
 pts=10
-rnx.nx_scores(k,pts,X,X)
+rnx.nx_scores(k,pts,X,X_r)
