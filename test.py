@@ -9,11 +9,12 @@ import drmethods as drm
 ###### DATA ####################
 ## important variables
 n_comp = 2
-n_nei =12
-nsamples = 500
+n_nei = 20
+nsamples = 1000
 
 #Swissroll
-X, color = datasets.make_swiss_roll(n_samples=nsamples)
+X = np.loadtxt('/home/tardigrade/Documents/yachay/thesis/AWESOME/CODE/swiss.dat', dtype=float)
+#X, color = datasets.make_swiss_roll(n_samples=nsamples)
 #X, color = drm.sphere(n_samples=nsamples)
 #Scurve
 #X, color = datasets.make_s_curve(n_samples=nsamples)

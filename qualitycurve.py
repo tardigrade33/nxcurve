@@ -35,7 +35,8 @@ def coranking(hdpd,ldpd):
             h=int(ndx4[(ndx1[i][j])][j])
             #print(h)
             corank[i][h] =  corank[i][h] + 1
-    return np.array(corank)[1:,1:]
+    c = np.array(corank)[1:,1:]        
+    return c
 
 def nx_trusion(c):
     """
@@ -67,7 +68,7 @@ def nx_trusion(c):
     
     n = np.divide(np.cumsum(n),v2)
     x = np.divide(np.cumsum(x),v2)
-    return (n,x,p,b)
+    return n,x,p,b
 
 
 def difranking(X,Yr):
@@ -111,9 +112,9 @@ def quality_curve(X,Y):
     
     #quality curves
     Q_NX = n + x + p
-    B_NX = x - n
+    B_NX = np.subtract(x,n)
     LCMC = np.subtract(Q_NX,b)
-    R_NX = np.divide(LCMC[:-1][:], 1-b[:-1][:])
+    R_NX = np.divide(LCMC[:-1][:], np.subtract(1,b[:-1][:]))
 
 
     #kavg = np.divide(np.dot(np.array(list(range(1,nmt))),R_NX),np.sum(R_NX,0))
@@ -144,22 +145,30 @@ def draw_curve(curve_data,area,name):
     """
     plot the curve
     """
-    v1 = list(range(1,len(curve_data)+1))
+    kra = curve_data.shape[0]+1
+    v1 = np.array(list(range(kra-1)))
+
     plt.plot(v1,100*curve_data)
+    #plt.plot(v3,100*curve_data[v2])
     axes = plt.gca()
     axes.set_ylim([0,np.max(100*curve_data)+5])
     axes.set_xlim([1,len(curve_data)])
     plt.xlabel('K')
-    plt.ylabel('100'+ name)
+    plt.ylabel('100 '+ name)
     plt.grid(True)
     plt.text(3, 3, str(area*100), style='italic',
     bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
     plt.xscale('log')
-    plt.yscale('linear')
+    #plt.yscale('log',base=2)
+    #plt.axis("off")
     plt.yticks(list(range(0,int(5*np.ceil(20*np.max(curve_data))),5)))
-    
+    #plt.axis([0, kra, 0, int(5*np.ceil(20*np.max(curve_data)))])
+    plt.tight_layout()
     plt.show()
 
 
 
-    
+
+
+
+

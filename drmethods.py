@@ -87,7 +87,7 @@ def sphere(n_samples):
 def draw_projection(X,X_r,color):
     """
     input: Original data, DR data, color
-    Draws original figure and Reduction
+    Draws original figure and projection of dimentionality reduction
     """
     fig = plt.figure()
     ax = fig.add_subplot(211, projection='3d')
