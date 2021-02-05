@@ -1,1 +1,2 @@
-__pycache__/
+#ignore generated cache
+__*__/
