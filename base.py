@@ -19,10 +19,10 @@ X, color = datasets.make_swiss_roll(n_samples=nsamples)
 
 ########## DR ##################
 ####Sklearn method
-#X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
+X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=n_comp)
 
 ####Kernel Method use wrapers KPCA
-X_r = drmeth.lle(X,n_comp,n_nei)
+#X_r = drmeth.lle(X,n_comp,n_nei)
 #drmeth.draw_projection(X,X_r,color)
 
 rnx.nx_scores(X,X_r)

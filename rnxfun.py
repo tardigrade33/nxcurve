@@ -101,17 +101,16 @@ def nx_scores(X,Y):
     nbr = len(X) #number of colums
     nmo = nbr-1
     nmt = nbr-2
-
-    rpt = np.floor(np.prod(Y.shape)/3) # elements in Y
-
+    #print(nbr)
+    #rpt = np.floor(np.prod(Y.shape)/3) # columns Ya 2
 
     #Dx = euclidean_distances(X,X)
     #Dy = euclidean_distances(Y,Y)
     Dx = pairwise_distances(X)
     Dy = pairwise_distances(Y)
     #creating output
-
     n,x,p,b = nx_trusion(coranking(Dx,Dy))
+
     Q_NX = n + x + p
     B_NX = x - n
     LCMC = np.subtract(Q_NX,b)
@@ -120,8 +119,9 @@ def nx_scores(X,Y):
     #print(R_NX)
 
     #kavg = np.divide(np.dot(np.array(list(range(1,nmt))),R_NX),np.sum(R_NX,0))
-    #pct = [5,10,25,50,75,90,95,100]
-    #Rpct = np.percentile(R_NX,pct,axis=0)
+    pct = [5,10,25,50,75,90,95,100]
+    Rpct = np.percentile(R_NX,pct,axis=0)
+    print(Rpct)
 
     wgh = np.divide(1,np.array(list(range(1,nmo+1))))
     wgh = wgh/np.sum(wgh)
@@ -157,12 +157,15 @@ def nx_scores(X,Y):
     #print(rpt)
     #print(yco[:,[1]])
     #print(Ravg)
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.plot(v1,100*np.log(R_NX))
+    #plt.xscale('log')
+    #plt.yscale('log')
+    plt.style.use('ggplot')
+    plt.plot(v1,100*R_NX)
     plt.xlabel('x label')
     plt.ylabel('y label')
     plt.grid(True)
+    #plt.set_ylim(1,100)
+    #plt.set_xlim(1,len(R_NX))
     #for lvl in range(0,100,10):
     #    plt.plot(v1,[lvl]*nmt,color='green', marker='_', linestyle='dashed')
     
