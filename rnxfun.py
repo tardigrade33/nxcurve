@@ -104,79 +104,61 @@ def nx_scores(X,Y):
     #print(nbr)
     #rpt = np.floor(np.prod(Y.shape)/3) # columns Ya 2
 
-    #Dx = euclidean_distances(X,X)
-    #Dy = euclidean_distances(Y,Y)
     Dx = pairwise_distances(X)
     Dy = pairwise_distances(Y)
     #creating output
     n,x,p,b = nx_trusion(coranking(Dx,Dy))
-
+    
+    #quality curves
     Q_NX = n + x + p
     B_NX = x - n
     LCMC = np.subtract(Q_NX,b)
     R_NX = np.divide(LCMC[:-1][:], 1-b[:-1][:])
-    #print(n)
-    #print(R_NX)
+
 
     #kavg = np.divide(np.dot(np.array(list(range(1,nmt))),R_NX),np.sum(R_NX,0))
     pct = [5,10,25,50,75,90,95,100]
     Rpct = np.percentile(R_NX,pct,axis=0)
-    print(Rpct)
+    #print(Rpct)
 
     wgh = np.divide(1,np.array(list(range(1,nmo+1))))
     wgh = wgh/np.sum(wgh)
-    #Qavg = wgh*Q_NX
-    #Bavg = wgh*B_NX
+    #Qavg = wgh*Q_NX   #area under Q_NX in a logplot
+    #Bavg = wgh*B_NX   #area under B_NX in a logplot
     wgh = np.divide(1,np.array(list(range(1,nmt+1))))
     wgh = wgh/np.sum(wgh)
-    Ravg = np.dot(wgh,R_NX)
-    # area under R_NX in a logplot
+    Ravg = np.dot(wgh,R_NX) #area under R_NX in a logplot
     #Ravg Es el promedio escalar de la puntuaci�n de los disttintos becindarios para R
-    print(Ravg)
-    #TR = np.argsort(R_NX, axis=1)
-    #TR = np.argsort(TR, axis=1)
-    #AR = wgh*(rpt+1-TR)
-    #FS = (np.multiply(wgh,5))/(np.max(list(range(1,rpt)))*(TR-1))
-
-    kra = nmt
-    yla = '$100 R_{\mathrm{NX}}(K)$'
-    yco = R_NX
-    ylb = 0
-    yub = 5*np.ceil(20*np.max(yco))
-    lpo = 'South' # not always optimal when loab is true
-
-    v1 = list(range(1,kra+1))
-    #v2 =
-    #print(rpt)
-    #print(LCMC)
-    #print(v1)
-    #print(yco[:][:2])
-    #for t in range(int(rpt)):
-    #    plt.plot(v1,yco[:,[t]])
-        #plt.plot([t],[t])
-    #print(rpt)
-    #print(yco[:,[1]])
-    #print(Ravg)
-    #plt.xscale('log')
-    #plt.yscale('log')
-    plt.style.use('ggplot')
-    plt.plot(v1,100*R_NX)
-    plt.xlabel('x label')
-    plt.ylabel('y label')
-    plt.grid(True)
-    #plt.set_ylim(1,100)
-    #plt.set_xlim(1,len(R_NX))
-    #for lvl in range(0,100,10):
-    #    plt.plot(v1,[lvl]*nmt,color='green', marker='_', linestyle='dashed')
     
-    plt.text(3, 8, str(Ravg*100), style='italic',
-        bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
-    #print(B_NX)
-    print(yub)
-     
+    #TR = np.argsort(R_NX, axis=1) #avoid last row of Q_NX and LCMC
+    #TR = np.argsort(TR, axis=1) #ranks from last to first for all K
+    #AR = wgh*(rpt+1-TR) #weighted average in alogplot
+    #FS = (np.multiply(wgh,5))/(np.max(list(range(1,rpt)))*(TR-1)) #five stars system (0 to 5)
+    
+
+    
+    draw_curve(R_NX,Ravg,'R_NX')
+
+
+def draw_curve(curve_data,area,name):
+    """
+    plot the curve
+    """
+    v1 = list(range(1,len(curve_data)+1))
+    plt.plot(v1,100*curve_data)
+    axes = plt.gca()
+    axes.set_ylim([0,np.max(100*curve_data)+5])
+    axes.set_xlim([1,len(curve_data)])
+    plt.xlabel('K')
+    plt.ylabel('100'+ name)
+    plt.grid(True)
+    plt.text(3, 3, str(area*100), style='italic',
+    bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
+    plt.xscale('log')
+    plt.yscale('linear')
+    plt.yticks(list(range(0,int(5*np.ceil(20*np.max(curve_data))),5)))
+    
     plt.show()
-
-
 
 
 

@@ -10,10 +10,11 @@ import wrapers as drmeth
 ## important variables
 n_comp = 2
 n_nei =12
-nsamples = 1000
+nsamples = 500
 
 #Swissroll
 X, color = datasets.make_swiss_roll(n_samples=nsamples)
+#X, color = drmeth.sphere(n_samples=nsamples)
 #Scurve
 #X, color = datasets.make_s_curve(n_samples=nsamples)
 
