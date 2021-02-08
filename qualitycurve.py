@@ -10,40 +10,43 @@ from sklearn.metrics.pairwise import pairwise_distances
 
 def coranking(hdpd,ldpd):
     """
-    input
-        hdpd:   distances matrix high dimention
-        ldpd:   distances matrix lower dimention
-        nsamples; samples
-    output
-        ρij = |{k : δik < δij or (δik = δij and 1 ≤ k < j ≤ N )}|
-    review that  ρij != ρik for k != j, even if δij = δik .
+    input:
+        hdpd:   pairwisedistance matrix high dimention
+        ldpd:   pairwisedistance lower dimention
+    output: c
+    c is the coranking matrix computed from the matrices of 
+    pairwise distances of the high dimentional data and low dimentional data
+    (hdpd,ldpd)
+
     """
-    ndx1 = np.argsort(hdpd, axis=0)
-    ndx2 = np.argsort(ldpd, axis=0)
+    idx_hdpd = np.argsort(hdpd, axis=0) #
+    idx_ldpd = np.argsort(ldpd, axis=0)
 
     rows = len(hdpd)
     cols = len(hdpd[0])
  
-    ndx4 = np.zeros((rows,cols))
+    rank_hd = np.zeros((rows,cols)) # hd ranking matrix
     for j in range(rows):
         for i in range(cols):
-            ndx4[(ndx2[i][j])][j] = i
-    #print(rank)
+            rank_hd[(idx_ldpd[i][j])][j] = i
+
     corank = np.zeros((rows,cols))
+    
+    # This method calculates coranking matrix more efficiently
     for j in range(rows):
         for i in range(cols):
-            h=int(ndx4[(ndx1[i][j])][j])
-            #print(h)
+            h=int(rank_hd[(idx_hdpd[i][j])][j])
             corank[i][h] =  corank[i][h] + 1
-    c = np.array(corank)[1:,1:]        
+
+    c = np.array(corank)[1:,1:]   # remove first row and column     
     return c
 
 def nx_trusion(c):
     """
-    input: c matriz corank
-    output; intrusiones extrusiones
-    computes the intrusion and extrusion rates according to the coranking 
-    matrix in c. The outputs n and x denote the intruction and extrusion
+    input: coranking matrix
+    output: n,x,p,b
+    Computes the intrusion and extrusion rates according to the input coranking 
+    matrix. The outputs n and x denote the intruction and extrusion
     rates as a function of K, the size of the K-ary neighbourhoods. 
     The outputs p and b are the rate of perfectly preserved ranks and the
     baseline that corresponds to the overlap between two random K-ary
