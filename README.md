@@ -5,11 +5,12 @@ Dimensionality reduction ( DR ) is a data transformation process which provides 
 # New Features!
   - RNX curve
 ### Development
-- Function to return
- - Q_NX curve and are under the curve
- - B_MX curve and area under the curve
- - Grahp for the corranking matrix
- - LCMC from a coranking matrix (local continuity meta criterion)
+
+- Q_NX curve and are under the curve
+- B_MX curve and area under the curve
+- Grahp for the corranking matrix
+- LCMC from a coranking matrix (local continuity meta criterion)
+- Error Handling
 
 Want to contribute? Great!
 

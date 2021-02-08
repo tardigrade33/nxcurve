@@ -31,7 +31,7 @@ def coranking(hdpd,ldpd):
             rank_hd[(idx_ldpd[i][j])][j] = i
 
     corank = np.zeros((rows,cols))
-    
+
     # This method calculates coranking matrix more efficiently
     for j in range(rows):
         for i in range(cols):
@@ -43,7 +43,7 @@ def coranking(hdpd,ldpd):
 
 def nx_trusion(c):
     """
-    input: coranking matrix
+    input: coranking matrix c
     output: n,x,p,b
     Computes the intrusion and extrusion rates according to the input coranking 
     matrix. The outputs n and x denote the intruction and extrusion
@@ -54,21 +54,22 @@ def nx_trusion(c):
     """
     rows = len(c)
     v1 = np.arange(1,rows+1)
-    v2 = np.array([(item*(rows+1)) for item in v1])
-    #print(v1)
-    #print(v2)
+    v2 = np.array([(item*(rows+1)) for item in v1]) # normalizing vector
 
     n = np.zeros(rows) # intrusions
     x = np.zeros(rows) # extrusions
-    tmp = np.cumsum(np.diagonal(c))
-    p = np.divide(tmp,v2)
+    # acumulated sum from diagonal corranking matrix / v2
+    p = np.cumsum(np.diagonal(c))
+    p = np.divide(p,v2)
     b = np.outer(v1,[1/rows])
     b = np.ndarray.flatten(b)
 
-    for k in range(1,rows):
-        n[k] = sum(c[k][0:k])
-        x[k] = sum(c[0:k,k])
+    # intrusion and extrusion rates
+    for k in range(1,rows):   # from one because the diagonal does not count
+        n[k] = sum(c[k][0:k]) # lower triangle sum
+        x[k] = sum(c[0:k,k])  # upper triangle sum
     
+    # accumulation and normalization of n and x
     n = np.divide(np.cumsum(n),v2)
     x = np.divide(np.cumsum(x),v2)
     return n,x,p,b
