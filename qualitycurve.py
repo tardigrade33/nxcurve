@@ -19,7 +19,7 @@ def coranking(hdpd,ldpd):
     (hdpd,ldpd)
 
     """
-    idx_hdpd = np.argsort(hdpd, axis=0) #
+    idx_hdpd = np.argsort(hdpd, axis=0) # index matrix of sorted data
     idx_ldpd = np.argsort(ldpd, axis=0)
 
     rows = len(hdpd)
@@ -75,9 +75,15 @@ def nx_trusion(c):
     return n,x,p,b
 
 
-def difranking(X,Yr):
-    Dx  =    euclidean_distances(X,X)
-    Dyx =  euclidean_distances(Yr,Yr)
+def difrank(X,X_r):
+    """
+    input: X original data, X_r reduced data
+    output: Matrix containing the difference between
+            the ranking matrices of the original data and
+            the reduced data
+    """
+    Dx  =  pairwise_distances(X)
+    Dyx =  pairwise_distances(X_r)
 
     sort_HD  = np.argsort(Dx, axis=0)
     sort_LD  = np.argsort(Dyx, axis=0)
