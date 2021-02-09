@@ -210,27 +210,60 @@ def draw_curve(curve_data, area, name, knn):
     input:  curve data, area under the curve, name, nearest neighbors
     output: plot the curve
     """
-    kra = curve_data.shape[0]+1
-    v1 = np.array(list(range(kra-1)))
+    size_x = curve_data.shape[0]+1
+    v1 = np.array(list(range(size_x-1)))
+    #size_x = len(curve_data)
+    
+    plt.figure(figsize=(10, 7))
 
-    plt.plot(v1,100*curve_data)
-    #plt.plot(v3,100*curve_data[v2])
-    axes = plt.gca()
-    axes.set_ylim([0,np.max(100*curve_data)+5])
-    axes.set_xlim([1,len(curve_data)])
-    plt.xlabel('K')
-    plt.ylabel('100 '+ name)
-    plt.grid(True)
-    plt.text(3, 3, str(area*100), style='italic',
-    bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
+    # Remove the plot frame lines. They are unnecessary chartjunk.    
+    ax = plt.subplot(111)    
+    ax.spines["top"].set_visible(False)    
+    ax.spines["bottom"].set_visible(False)    
+    ax.spines["right"].set_visible(False)    
+    ax.spines["left"].set_visible(False)
+
+    # Ensure that the axis ticks only show up on the bottom and left of the plot.    
+    # Ticks on the right and top of the plot are generally unnecessary chartjunk.    
+    ax.get_xaxis().tick_bottom()    
+    ax.get_yaxis().tick_left() 
+
+    # Limit the range of the plot to only where the data is.    
+    # Avoid unnecessary whitespace.    
+    plt.ylim(0, 100)    
+    plt.xlim(1,size_x)
+
+    # Make sure your axis ticks are large enough to be easily read.    
+    # You don't want your viewers squinting to read your plot.    
+    plt.yticks(range(0, 101, 10), [str(x) for x in range(0, 101, 10)], fontsize=14)    
+    plt.xticks(fontsize=14)
+
+    # Provide tick lines across the plot to help your viewers trace along    
+    # the axis ticks. Make sure that the lines are light and small so they    
+    # don't obscure the primary data lines.    
+    for y in range(10, 101, 10):    
+        plt.plot(range(0, size_x), [y] * len(range(0, size_x)), "--", lw=0.5, color="black", alpha=0.3) 
+
+    # Remove the tick marks; they are unnecessary with the tick lines we just plotted.    
+    plt.tick_params(axis="both", which="both", bottom="off", top="off",    
+                labelbottom="on", left="off", right="off", labelleft="on")  
+
+    #Actually ploting the data
+    plt.plot(v1, 100 * curve_data, label = name)
+    plt.xlabel('K', fontsize=20, color="blue")
+    plt.ylabel('100 * ' + name, fontsize=20, color="blue")
     plt.xscale('log')
-    plt.plot([knn,knn],[0,100])  #division line beta
-    #plt.yscale('log',base=2)
-    #plt.axis("off")
-    plt.yticks(list(range(0,int(5*np.ceil(20*np.max(curve_data))),5)))
-    #plt.axis([0, kra, 0, int(5*np.ceil(20*np.max(curve_data)))])
+    plt.plot([knn,knn],[0,100])  #division line knn
+    plt.text(3, 3, str(area*100), style='italic', fontsize=14, color="blue")
+
     plt.tight_layout()
     plt.show()
+
+    # Finally, save the figure as a PNG.    
+    # You can also save it as a PDF, JPEG, etc.    
+    # Just change the file extension in this call.    
+    # bbox_inches="tight" removes all the extra whitespace on the edges of your plot.    
+    #plt.savefig("percent-bachelors-degrees-women-usa.png", bbox_inches="tight") 
 
 
 

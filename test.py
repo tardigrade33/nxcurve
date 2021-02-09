@@ -29,4 +29,4 @@ X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=
 
 #drm.draw_projection(X,X_r,color)
 
-qc.quality_curve(X,X_r,n_nei,'q',True)
+qc.quality_curve(X,X_r,n_nei,'b',True)
