@@ -10,12 +10,12 @@ import drmethods as drm
 ## important variables
 n_comp = 2
 n_nei = 20
-nsamples = 1000
+nsamples = 2000
 
 #Swissroll
-#X = np.loadtxt('/home/tardigrade/Documents/yachay/thesis/AWESOME/CODE/swiss.dat', dtype=float)
+X = np.loadtxt('/home/tardigrade/Documents/yachay/thesis/AWESOME/CODE/swiss.dat', dtype=float)
 #X, color = datasets.make_swiss_roll(n_samples=nsamples)
-X, color = drm.sphere(n_samples=nsamples)
+#X, color = drm.sphere(n_samples=nsamples)
 #Scurve
 #X, color = datasets.make_s_curve(n_samples=nsamples)
 
@@ -29,4 +29,4 @@ X_r, err = manifold.locally_linear_embedding(X, n_neighbors=n_nei, n_components=
 
 #drm.draw_projection(X,X_r,color)
 
-qc.quality_curve(X,X_r)
+qc.quality_curve(X,X_r,n_nei,'b',True)
