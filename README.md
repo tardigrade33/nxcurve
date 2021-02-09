@@ -11,6 +11,7 @@ Dimensionality reduction ( DR ) is a data transformation process which provides 
 - Grahp for the corranking matrix
 - LCMC from a coranking matrix (local continuity meta criterion)
 - Error Handling
+- Draw line that divides local from gobal topology knn
 
 Want to contribute? Great!
 

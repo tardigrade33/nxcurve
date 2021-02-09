@@ -1,7 +1,18 @@
-#rnxfun.py
-# Author: Nicolas Marin <josue.marin1729@gmail.com>
-# License: MIT
-
+"""
+rnxfun.py
+Author: Nicolas Marin <josue.marin1729@gmail.com>
+License: MIT
+References:
+[1] John A. Lee, Michel Verleysen.
+    Quality assessment of nonlinear dimensionality reduction: 
+    rank-based criteria.
+    Neurocomputing, 72(7-9):1431-1443, March 2009.
+[2] J. A. Lee, E. Renard, G. Bernard, P. Dupont, M. Verleysen
+    Type 1 and 2 mixtures of Kullback-Leibler divergences
+    as cost functions in dimensionality reduction
+    based on similarity preservation
+    Accepted in Neurocomputing, 2013.
+"""
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 import matplotlib.pyplot as plt
@@ -105,55 +116,99 @@ def difrank(X,X_r):
     dif =  rank_HD - rank_LD
     tmp = np.matlib.repmat((np.max(np.abs(dif),axis=0)) ,np.size(dif,axis=1),1)
     return np.divide(dif,tmp)
-    
 
-def quality_curve(X,Y):
 
+
+def quality_curve(X,X_r,n_neighbors,opt,graph=False):
+    """
+    input: X original data, X_r reduced data, n_neighbors, option, graph
+    output: _NX vector, area under the curve and plot if graph == True
+    Any character in the following list generates a new figure: (opt)
+    q: Q_NX(K)
+    b: N_NX(K)
+    l: LCMC(K)
+    r: R_NX(K)
+
+    """
     nbr = len(X) #number of colums
     nmo = nbr-1
     nmt = nbr-2
-    #print(nbr)
-    #rpt = np.floor(np.prod(Y.shape)/3) # columns Ya 2
-
+    
     Dx = pairwise_distances(X)
-    Dy = pairwise_distances(Y)
-    #creating output
-    n,x,p,b = nx_trusion(coranking(Dx,Dy))
-    
-    #quality curves
-    Q_NX = n + x + p
-    B_NX = np.subtract(x,n)
-    LCMC = np.subtract(Q_NX,b)
-    R_NX = np.divide(LCMC[:-1][:], np.subtract(1,b[:-1][:]))
+    Dy = pairwise_distances(X_r)
+    #calculating intrusions and extrusions
+    c = coranking(Dx,Dy)
+    n,x,p,b = nx_trusion(c)
 
-
+    #commented code to be implemented in the future
     #kavg = np.divide(np.dot(np.array(list(range(1,nmt))),R_NX),np.sum(R_NX,0))
-    pct = [5,10,25,50,75,90,95,100]
-    Rpct = np.percentile(R_NX,pct,axis=0)
+    #pct = [5,10,25,50,75,90,95,100]
+    #Rpct = np.percentile(R_NX,pct,axis=0)
     #print(Rpct)
-
-    wgh = np.divide(1,np.array(list(range(1,nmo+1))))
-    wgh = wgh/np.sum(wgh)
-    #Qavg = wgh*Q_NX   #area under Q_NX in a logplot
-    #Bavg = wgh*B_NX   #area under B_NX in a logplot
-    wgh = np.divide(1,np.array(list(range(1,nmt+1))))
-    wgh = wgh/np.sum(wgh)
-    Ravg = np.dot(wgh,R_NX) #area under R_NX in a logplot
-    #Ravg Es el promedio escalar de la puntuaci�n de los disttintos becindarios para R
-    
     #TR = np.argsort(R_NX, axis=1) #avoid last row of Q_NX and LCMC
     #TR = np.argsort(TR, axis=1) #ranks from last to first for all K
     #AR = wgh*(rpt+1-TR) #weighted average in alogplot
     #FS = (np.multiply(wgh,5))/(np.max(list(range(1,rpt)))*(TR-1)) #five stars system (0 to 5)
+
+    #functions for every curve
+    def _rnx():
+        Q_NX = n + x + p
+        LCMC = np.subtract(Q_NX,b)
+        R_NX = np.divide(LCMC[:-1][:], np.subtract(1,b[:-1][:]))
+        wgh  = np.divide(1,np.array(list(range(1,nmt+1))))
+        wgh  = wgh/np.sum(wgh)
+        Ravg = np.dot(wgh,R_NX) #area under R_NX in a logplot
+        name = 'R_NX(K)'
+        return R_NX, Ravg, name
+
+    def _qnx():
+        Q_NX = n + x + p
+        wgh  = np.divide(1,np.array(list(range(1,nmo+1))))
+        wgh  = wgh/np.sum(wgh)
+        Qavg = np.dot(wgh,Q_NX)   #area under Q_NX in a logplot
+        name = "Q_NX(K)"
+        return Q_NX, Qavg, name 
+    
+    def _bnx():
+        B_NX = np.subtract(x,n)
+        wgh  = np.divide(1,np.array(list(range(1,nmo+1))))
+        wgh  = wgh/np.sum(wgh)
+        Bavg = np.dot(wgh, B_NX)   #area under B_NX in a logplot
+        name = 'B_NX(K)'
+        return B_NX, Bavg, name
+
+    # logic to draw and return
+    if opt == 'q':
+        cdata, auc, name = _qnx()
+        if graph:
+            draw_curve(cdata, auc, name, n_neighbors)
+        return cdata, auc, name
+        
+    elif opt == 'b':
+        cdata, auc, name = _bnx()
+        if graph:
+            draw_curve(cdata, auc, name, n_neighbors)
+        return cdata, auc, name
+        
+    elif opt == 'r':
+        cdata, auc, name = _rnx()
+        if graph:
+            draw_curve(cdata, auc, name, n_neighbors)
+        return cdata, auc, name
+        
+    else:
+        raise Exception('opt shoud be one of the following [q, b, r]')
+
+    
     
 
-    
-    draw_curve(R_NX,Ravg,'R_NX')
 
 
-def draw_curve(curve_data,area,name):
+
+def draw_curve(curve_data, area, name, knn):
     """
-    plot the curve
+    input:  curve data, area under the curve, name, nearest neighbors
+    output: plot the curve
     """
     kra = curve_data.shape[0]+1
     v1 = np.array(list(range(kra-1)))
@@ -169,6 +224,7 @@ def draw_curve(curve_data,area,name):
     plt.text(3, 3, str(area*100), style='italic',
     bbox={'facecolor': 'red', 'alpha': 0.5, 'pad': 10})
     plt.xscale('log')
+    plt.plot([knn,knn],[0,100])  #division line beta
     #plt.yscale('log',base=2)
     #plt.axis("off")
     plt.yticks(list(range(0,int(5*np.ceil(20*np.max(curve_data))),5)))
