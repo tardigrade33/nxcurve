@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: nxcurve
+Version: 0.5
+Summary: draws RNS,QNX and BNX curves and their auc
+Home-page: https://github.com/tardigrade33/nxcurve
+Author: Nicolas Marin
+Author-email: josue.marin1729@gmail.com
+License: MIT
+Download-URL: https://github.com/user/reponame/archive/v_01.tar.gz
+Description: UNKNOWN
+Keywords: RNX,qualitycurve,QNX,BNX
+Platform: UNKNOWN
+Classifier: Development Status :: Beta 1
+Classifier: Intended Audience :: Developers :: Data Scientist
+Classifier: Topic :: Dimentionality Reduction Quality
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.9

@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
   name = 'nxcurve',         # How you named your package folder (MyLib)
-  packages = ['nxcurve'],   # Chose the same as "name"
+  #packages = ['nxcurve'],   # Chose the same as "name"
   version = '0.5',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'draws RNS,QNX and BNX curves and their auc',   # Give a short description about your library
