@@ -1,8 +1,0 @@
-README.md
-setup.py
-src/nxcurve.py
-src/nxcurve.egg-info/PKG-INFO
-src/nxcurve.egg-info/SOURCES.txt
-src/nxcurve.egg-info/dependency_links.txt
-src/nxcurve.egg-info/requires.txt
-src/nxcurve.egg-info/top_level.txt
