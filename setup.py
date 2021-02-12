@@ -5,11 +5,12 @@ with open("README.md","r") as fh:
 
 setup(
     name = 'nxcurve',         # How you named your package folder (MyLib)
-    version = '0.6',      # Start with a small number and increase it with every change you make
+    version = '0.6.1',      # Start with a small number and increase it with every change you make
     description = 'draws RNS,QNX and BNX curves and their auc',   # Give a short description about your library
     py_modules = ['nxcurve'],
     package_dir={'':'src'},
     long_description=long_description,
+    long_description_content_type="text/markdown",
   
     license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     author = 'Nicolas Marin',                   # Type in your name
@@ -24,10 +25,8 @@ setup(
           'scikit-learn',
       ],
     classifiers=[
-    'Development Status :: Beta 1',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-    'Intended Audience :: Developers :: Data Scientist',      # Define that your audience are developers
-    'Topic :: Dimentionality Reduction Quality',
-    'License :: OSI Approved :: MIT License',   # Again, pick a license
-    'Programming Language :: Python :: 3.9',      #Specify which pyhton versions that you want to support
+    'Development Status :: 4 - Beta ',     
+    'License :: OSI Approved :: MIT License'  ,  
+    'Programming Language :: Python :: 3.9',     
     ],
 )
