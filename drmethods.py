@@ -19,7 +19,7 @@ def kernel_pca(X,K,n_components):
     K = K - one_n.dot(K) - K.dot(one_n) + one_n.dot(K).dot(one_n)
     # Obtaining eigenvalues in descending order with corresponding
     # eigenvectors from the symmetric matrix.
-    eigvals, eigvecs = eigh(K)
+    _, eigvecs = eigh(K)
     # Obtaining the i eigenvectors that corresponds to the i highest eigenvalues.
     X_pc = np.column_stack((eigvecs[:,-i] for i in range(1,n_components+1)))
     return X_pc
