@@ -1,12 +1,11 @@
 Metadata-Version: 1.1
 Name: nxcurve
-Version: 0.5
+Version: 0.6
 Summary: draws RNS,QNX and BNX curves and their auc
 Home-page: https://github.com/tardigrade33/nxcurve
 Author: Nicolas Marin
 Author-email: josue.marin1729@gmail.com
 License: MIT
-Download-URL: https://github.com/user/reponame/archive/v_01.tar.gz
 Description: UNKNOWN
 Keywords: RNX,qualitycurve,QNX,BNX
 Platform: UNKNOWN
