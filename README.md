@@ -17,7 +17,7 @@ from sklearn import manifold, datasets  # datasets
 from nxcurve import quality_curve
 
 n_comp = 2        # number of components to be reduced
-n_nei = 20        # nearest neigbors
+n_nei = 20        # nearest neighbors
 nsamples = 2000   # number of points (samples)
 
 # Creating manifold 
