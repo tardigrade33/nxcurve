@@ -58,9 +58,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-<<<<<<< HEAD
-[Quality_curves_RNX]: <https://www.sciencedirect.com/science/article/abs/pii/S0925231213001471?via%3Dihub>
-=======
 [Quality curves RNX]: <https://www.sciencedirect.com/science/article/abs/pii/S0925231213001471?via%3Dihub>
 [pip]: <https://pypi.org/project/nxcurve/>
->>>>>>> development
