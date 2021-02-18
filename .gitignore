@@ -12,6 +12,7 @@ __pycache__/
 *.so
 #Testing folder
 tests/
+.directory
 
 # Distribution / packaging
 .Python
